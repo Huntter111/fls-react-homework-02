@@ -47,7 +47,6 @@ const BusinessCategory = () => {
 	]
 	const [cognac, setCognac] = useState('')
 	const [newspaper, setNewspaper] = useState('')
-	const [snack, setSnack] = useState('')
 	const [isSnackVisible, setIsSnackVisible] = useState(false)
 	const [answer, setAnswer] = useState({
 		cognac: 'Не вибрано',
@@ -81,11 +80,9 @@ const BusinessCategory = () => {
 
 	function handleSnackCheck(snack) {
 		if (snack === 'yes') {
-			setSnack(true)
 			setIsSnackVisible(false)
 			setAnswer((prevV) => ({ ...prevV, snack: 'Додаємо' }))
 		} else if (snack === 'no') {
-			setSnack(false)
 			setIsSnackVisible(false)
 			setAnswer((prevV) => ({ ...prevV, snack: 'Не вибрано' }))
 		}

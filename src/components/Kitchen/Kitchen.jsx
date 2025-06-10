@@ -6,7 +6,7 @@ const Kitchen = () => {
 		{ dish: 'Голубці', id: 1 },
 		{ dish: 'Грибковий суп', id: 2 },
 	])
-	console.log(' Kitchen ~ waitingList:', waitingList)
+
 	const [processingList, setProcessingList] = useState(() => [
 		{ dish: 'Блінчики з сиром', id: 3 },
 		{ dish: 'Салат "Цезар"', id: 4 },
@@ -16,6 +16,7 @@ const Kitchen = () => {
 		{ dish: 'Плов з овочами', id: 6 },
 	])
 	function handleAddDish() {
+		if (!dish.trim()) return
 		const newDish = {
 			id: new Date().getTime(),
 			dish: dish,
@@ -23,26 +24,20 @@ const Kitchen = () => {
 		setWaitingList((prevWaitingList) => [...prevWaitingList, newDish])
 		setDish('')
 	}
+	// Для оптимізації можна зробити універсальну функцію для перенесення страв, без дублювання коду
 	function handleWaitingDish(id) {
-		const filteredArr = waitingList.filter((arr) => arr.id === id)
+		const itemDish = waitingList.find((item) => item.id === id)
 		setWaitingList((prevWaitingList) =>
 			[...prevWaitingList].filter((arr) => arr.id !== id),
 		)
-		setProcessingList((prevProcessingList) => [
-			...prevProcessingList,
-			...filteredArr,
-		])
+		setProcessingList((prevProcessingList) => [...prevProcessingList, itemDish])
 	}
 	function handleCookedDish(id) {
-		const filteredArr = processingList.filter((arr) => arr.id === id)
-
+		const itemDish = processingList.find((arr) => arr.id === id)
 		setProcessingList((prevProcessingList) =>
 			[...prevProcessingList].filter((arr) => arr.id !== id),
 		)
-		setCompletedList((prevCompletedList) => [
-			...prevCompletedList,
-			...filteredArr,
-		])
+		setCompletedList((prevCompletedList) => [...prevCompletedList, itemDish])
 	}
 	function handleRemoveDish(id) {
 		setCompletedList((prevCompleteList) =>

@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import styles from './Ticket.module.scss'
-console.log(' styles:', styles)
+
 import BusinessCategory from './BusinessCategory'
 import EconomyCategory from './EconomyCategory'
 const Ticket = () => {
