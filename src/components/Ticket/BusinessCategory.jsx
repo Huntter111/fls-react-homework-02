@@ -49,21 +49,33 @@ const BusinessCategory = () => {
 	const [newspaper, setNewspaper] = useState('')
 	const [snack, setSnack] = useState('')
 	const [isSnackVisible, setIsSnackVisible] = useState(false)
-	const [answer, setAnswer] = useState('')
+	const [answer, setAnswer] = useState({
+		cognac: 'Не вибрано',
+		newspaper: 'Не вибрано',
+		snack: 'Не вибрано',
+	})
+	const [message, setMessage] = useState('')
 	useEffect(() => {
-		setAnswer(
-			`Ваше замовлення. Коньяк - ${cognac ? cognac : 'Не вибраний'}. Газета - ${
-				newspaper ? newspaper : 'Нe вибрана'
-			}.   ${snack ? 'Додаємо закуску' : 'Без закуски'}`,
+		setMessage(
+			`Ваше замовлення. Коньяк - ${answer.cognac}. Газета - ${answer.newspaper}. Закуска - ${answer.snack}`,
 		)
-	}, [cognac, newspaper, snack, isSnackVisible])
+	}, [answer])
 
-	function handleSelectedChange(e, set) {
+	function handleSelectedChange(e, set, value) {
 		const selectedOption = e.target.options[e.target.selectedIndex]
 		const selectName = e.target.name
-		set(selectedOption.text)
+		set(e.target.value)
 		if (selectName === 'cognac') {
 			setIsSnackVisible(true)
+		}
+		if (value === 'cognac') {
+			setAnswer((prev) => ({
+				...prev,
+				cognac: selectedOption.text,
+				snack: 'Не вибрано',
+			}))
+		} else if (value === 'newspaper') {
+			setAnswer((prev) => ({ ...prev, newspaper: selectedOption.text }))
 		}
 	}
 
@@ -71,9 +83,11 @@ const BusinessCategory = () => {
 		if (snack === 'yes') {
 			setSnack(true)
 			setIsSnackVisible(false)
+			setAnswer((prevV) => ({ ...prevV, snack: 'Додаємо' }))
 		} else if (snack === 'no') {
 			setSnack(false)
 			setIsSnackVisible(false)
+			setAnswer((prevV) => ({ ...prevV, snack: 'Не вибрано' }))
 		}
 	}
 	return (
@@ -86,7 +100,7 @@ const BusinessCategory = () => {
 					<div>
 						<select
 							value={cognac}
-							onChange={(e) => handleSelectedChange(e, setCognac)}
+							onChange={(e) => handleSelectedChange(e, setCognac, 'cognac')}
 							className="text-white"
 							name="cognac"
 						>
@@ -112,8 +126,11 @@ const BusinessCategory = () => {
 					<div>
 						<select
 							value={newspaper}
+							name="newspaper"
 							className="text-white"
-							onChange={(e) => handleSelectedChange(e, setNewspaper)}
+							onChange={(e) =>
+								handleSelectedChange(e, setNewspaper, 'newspaper')
+							}
 						>
 							<option
 								value=""
@@ -145,7 +162,7 @@ const BusinessCategory = () => {
 							</div>
 						</div>
 					)}
-					<div className={styles.answer}>{answer}</div>
+					<div className={styles.answer}>{message}</div>
 				</div>
 			</div>
 		</>

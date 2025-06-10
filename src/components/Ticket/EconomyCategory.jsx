@@ -16,19 +16,25 @@ const EconomyCategory = () => {
 		{ value: 'ritz_bits', name: 'Ritz Bits' },
 	]
 	const [beer, setBeer] = useState('')
+	console.log(' EconomyCategory ~ beer:', beer)
 	const [chips, setChips] = useState('')
-	const [answer, setAnswer] = useState('')
+	const [answer, setAnswer] = useState({
+		beer: 'Не вибрали',
+		chips: 'Не вибрали',
+	})
+	const [message, setMessage] = useState('')
 	useEffect(() => {
-		setAnswer(
-			`Ваше замовлення Пиво: ${beer ? beer : 'Не вибрали'}. Чипси: ${
-				chips ? chips : 'Не вибрали'
-			}`,
-		)
-	}, [beer, chips])
+		setMessage(`Ваше замовлення Пиво: ${answer.beer}. Чипси: ${answer.chips}`)
+	}, [answer])
 
-	function handleSelected(e, set) {
+	function handleSelected(e, set, value) {
 		const selectedOption = e.target.options[e.target.selectedIndex]
-		set(selectedOption.text)
+		set(e.target.value)
+		if (value === 'beer') {
+			setAnswer((prevAnswer) => ({ ...prevAnswer, beer: selectedOption.text }))
+		} else if (value === 'chips') {
+			setAnswer((prevAnswer) => ({ ...prevAnswer, chips: selectedOption.text }))
+		}
 	}
 	return (
 		<div className="economy-category min-h-[350px] ">
@@ -38,7 +44,7 @@ const EconomyCategory = () => {
 						name="beer"
 						value={beer}
 						className="text-white"
-						onChange={(e) => handleSelected(e, setBeer)}
+						onChange={(e) => handleSelected(e, setBeer, 'beer')}
 					>
 						<option
 							value=""
@@ -47,8 +53,9 @@ const EconomyCategory = () => {
 						>
 							Виберіть пиво
 						</option>
-						{beersData.map((beer) => (
+						{beersData.map((beer, index) => (
 							<option
+								key={index}
 								value={beer.value}
 								className={styles.option}
 							>
@@ -62,7 +69,7 @@ const EconomyCategory = () => {
 						name="chips"
 						value={chips}
 						className={'text-white'}
-						onChange={(e) => handleSelected(e, setChips)}
+						onChange={(e) => handleSelected(e, setChips, 'chips')}
 					>
 						<option
 							value=""
@@ -71,8 +78,9 @@ const EconomyCategory = () => {
 						>
 							Виберіть чипси
 						</option>
-						{chipsData.map((chip) => (
+						{chipsData.map((chip, index) => (
 							<option
+								key={index}
 								value={chip.value}
 								className={styles.option}
 							>
@@ -83,7 +91,7 @@ const EconomyCategory = () => {
 				</div>
 			</div>
 			<div className="text-white text-xl  flex justify-center p-4  ">
-				<div>{answer}</div>
+				<div>{message}</div>
 			</div>
 		</div>
 	)
