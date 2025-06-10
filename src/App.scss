@@ -1,0 +1,77 @@
+:root {
+	--color-primary: #3b82f6; /* Sky Blue – для кнопок, посилань */
+	--color-warning: #facc15; /* Amber – для уваги */
+	--color-success: #10b981; /* Emerald – для підтвердження */
+	--color-neutral: #e5e7eb; /* Light Gray – бордери, фони */
+	--color-text: #111827; /* Основний текст */
+	--color-background: #f9fafb; /* Фон сторінки */
+}
+body {
+	background-color: var(--color-background);
+}
+label {
+	// width: 400px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+	font-size: 18px;
+}
+input {
+	padding: 5px 10px;
+	width: 300px;
+	outline: none;
+	border: 1px solid var(--color-primary);
+	border-radius: 4px;
+	&:focus {
+		border: 1px solid var(--color-warning);
+	}
+	@media (max-width: 480px) {
+		width: 100%;
+	}
+}
+button {
+	padding: 8px 30px;
+	border-radius: 8px;
+	background-color: var(--color-primary);
+	color: var(--color-neutral);
+	transition: all 0.3s;
+	@media (any-hover: hover) {
+		&:hover {
+			cursor: pointer;
+			background-color: var(--color-success);
+		}
+	}
+}
+.borderBoxShadow {
+	// box-shadow: rgba(50, 70, 93, 0.25) 0px 6px 12px -2px,
+	// 	rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+	box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+		rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+		rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+.business-category {
+	border-radius: 8px;
+	padding: 10px;
+	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+		url('https://www.rbc.ua/static/ckef2/img/airbus%20com.jpg') 50% / cover
+			no-repeat;
+}
+.economy-category {
+	border-radius: 8px;
+	padding: 10px;
+	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+		url('https://images.unsplash.com/photo-1657598339759-fd1432d833f0?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2xvdWRzJTIwaW4lMjBza3l8ZW58MHx8MHx8fDA%3D')
+			50% / cover no-repeat;
+}
+table,
+th,
+td {
+	border: 1px solid grey;
+	text-align: center;
+}
+
+th,
+td {
+	padding: 10px;
+}

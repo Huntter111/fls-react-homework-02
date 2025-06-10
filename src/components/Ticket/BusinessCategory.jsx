@@ -1,0 +1,155 @@
+import { useEffect, useState } from 'react'
+import styles from './BusinessCategory.module.scss'
+const BusinessCategory = () => {
+	const cognacsData = [
+		{
+			cognacValue: 'hennessy_vs',
+			cognacName: 'Hennessy VS',
+		},
+		{
+			cognacValue: 'remy_martin_vsop',
+			cognacName: 'Rémy Martin VSOP',
+		},
+		{
+			cognacValue: 'courvoisier_vs',
+			cognacName: 'Courvoisier VS',
+		},
+		{
+			cognacValue: 'martell_cordon_bleu',
+			cognacName: 'Martell Cordon Bleu',
+		},
+		{
+			cognacValue: 'kvint_5_star',
+			cognacName: 'KVINT 5 Stars',
+		},
+	]
+	const newspapersData = [
+		{
+			value: 'fakty_ictv',
+			name: 'Факти ICTV',
+		},
+		{
+			value: 'segodnya',
+			name: 'Сьогодні',
+		},
+		{
+			value: 'gazeta_ua',
+			name: 'Gazeta.ua',
+		},
+		{
+			value: 'ukrainska_pravda',
+			name: 'Українська правда',
+		},
+		{
+			value: 'visnyk_ua',
+			name: 'Вісник+К',
+		},
+	]
+	const [cognac, setCognac] = useState('')
+	const [newspaper, setNewspaper] = useState('')
+	const [snack, setSnack] = useState('')
+	const [isSnackVisible, setIsSnackVisible] = useState(false)
+	const [answer, setAnswer] = useState('')
+	useEffect(() => {
+		setAnswer(
+			`Ваше замовлення. Коньяк - ${cognac ? cognac : 'Не вибраний'}. Газета - ${
+				newspaper ? newspaper : 'Нe вибрана'
+			}.   ${snack ? 'Додаємо закуску' : 'Без закуски'}`,
+		)
+	}, [cognac, newspaper, snack, isSnackVisible])
+
+	function handleSelectedChange(e, set) {
+		const selectedOption = e.target.options[e.target.selectedIndex]
+		const selectName = e.target.name
+		set(selectedOption.text)
+		if (selectName === 'cognac') {
+			setIsSnackVisible(true)
+		}
+	}
+
+	function handleSnackCheck(snack) {
+		if (snack === 'yes') {
+			setSnack(true)
+			setIsSnackVisible(false)
+		} else if (snack === 'no') {
+			setSnack(false)
+			setIsSnackVisible(false)
+		}
+	}
+	return (
+		<>
+			<div className="business-category min-h-[350px]">
+				<h3 className="mb-8 text-white text-xl font-bold text-center">
+					Виберіть коньяк та газету
+				</h3>
+				<div className="flex justify-center items-center gap-16">
+					<div>
+						<select
+							value={cognac}
+							onChange={(e) => handleSelectedChange(e, setCognac)}
+							className="text-white"
+							name="cognac"
+						>
+							<option
+								value=""
+								disabled
+								hidden
+								className="text-black"
+							>
+								Оберіть коньяк:
+							</option>
+							{cognacsData.map((cognac, index) => (
+								<option
+									key={index}
+									className={styles.option}
+									value={cognac.cognacValue}
+								>
+									{cognac.cognacName}
+								</option>
+							))}
+						</select>
+					</div>
+					<div>
+						<select
+							value={newspaper}
+							className="text-white"
+							onChange={(e) => handleSelectedChange(e, setNewspaper)}
+						>
+							<option
+								value=""
+								disabled
+								hidden
+								className="text-black"
+							>
+								Оберіть газету:
+							</option>
+							{newspapersData.map((newspaper, index) => (
+								<option
+									key={index}
+									className={styles.option}
+									value={newspaper.value}
+								>
+									{newspaper.name}
+								</option>
+							))}
+						</select>
+					</div>
+				</div>
+				<div className="text-white h-[80px] flex justify-center mt-8 relative">
+					{isSnackVisible && (
+						<div>
+							<h3 className="mb-4">Бажаєте закуску?</h3>
+							<div className="flex gap-4">
+								<button onClick={() => handleSnackCheck('yes')}>Так</button>
+								<button onClick={() => handleSnackCheck('no')}>Ні</button>
+							</div>
+						</div>
+					)}
+					<div className={styles.answer}>{answer}</div>
+				</div>
+			</div>
+		</>
+	)
+}
+
+export default BusinessCategory
